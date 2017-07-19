@@ -26,7 +26,7 @@ class Core(object):
         print('Filename: ' + filename)  # DEBUG
         filename = filename.lower()
         data = {}
-        rc = re.match('(.+?)\.+s([0-9]){2}e([0-9]){2}\..+\-(.+?)\..{2,4}', filename)
+        rc = re.match('(.+?)\.+s([0-9]{2})e([0-9]{2})\..+\-(.+?)\..{2,4}', filename)
         if rc:  # tvshow
             data['category'] = 'tvshow'
             data['season'] = rc.group(2)
