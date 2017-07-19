@@ -50,4 +50,4 @@ class BaseProvider(object):
             score += (0, 50)[group in s['groups']]
             # TODO: size/time  fps  codecs
             s['score'] = score
-        return self.__sort(subs)
+        return self.__sort(subs)[0]

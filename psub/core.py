@@ -19,7 +19,7 @@ class Core(object):
     def __init__(self, debug=False):
         logger(save=debug)  # init root logger
         self.logger = logger(__name__)
-        self.provider = napisy24.Provider()
+        # self.provider = napisy24.Provider()
 
     def _parseFilename(self, filename):
         """Parse filename. Returns {title, year, group}."""
@@ -51,5 +51,7 @@ class Core(object):
         # TODO: encoding
         # TODO: encoding conversion
         # TODO: imdb_id
+        self.provider = napisy24.Provider(username=username, passwd=passwd)
         data = self._parseFilename(filename)
-        return self.provider.download(category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
+        fc = self.provider.download(category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
+        open(filename.replace('.mkv', '.srt'), 'wb').write(fc)

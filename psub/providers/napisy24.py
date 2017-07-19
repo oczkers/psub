@@ -11,13 +11,15 @@ This module implements the psub napisy24.pl provider methods.
 import re
 from bs4 import BeautifulSoup
 # from random import random
+from io import BytesIO
+from zipfile import ZipFile
 
 from . import BaseProvider
 from ..exceptions import PsubError
 
 
 class Provider(BaseProvider):
-    def __init__(self, username=None, passwd=None):  # TODO: username & password is not needed when cookies are available
+    def __init__(self, username, passwd):  # TODO: username & password is not needed when cookies are available
         super().__init__(logger_name=__name__)
         if username and passwd:
             self.login(username, passwd)
@@ -108,4 +110,14 @@ class Provider(BaseProvider):
         # sr | SubRip
         # sru | SubRip (UTF-8)  <-- best, should be default
         # /download?napisId=64124&typ=sru
-        return self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)[0]
+        sub = self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)
+        params = {'napisId': sub['id'],
+                  'typ': 'sru'}
+        print(params)
+        self.r.headers['Referer'] = 'http://napisy24.pl'
+        rc = self.r.get('http://napisy24.pl/download', params=params).content  # TODO: stream
+        # open('sub.zip', 'wb').write(rc)
+        fc = ZipFile(BytesIO(rc))
+        for i in fc.namelist():  # search for subtitle (there are might be url, nfo etc.)
+            if i[-3:] == 'srt':
+                return fc.open(i).read()
