@@ -1,0 +1,16 @@
+docs/_build
+*.pyc
+build/
+dist/
+psub.egg-info/
+.cache/
+.coverage
+coverage.xml
+test.py
+log.log
+psub.log
+test.log
+screenlog.0
+codecov.yml
+psub.db
+psub.yml
