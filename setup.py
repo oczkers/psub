@@ -6,7 +6,7 @@ except ImportError:
     from distutils.core import setup
 
 
-__title__ = 'pdeo'
+__title__ = 'psub'
 __version__ = '0.0.1'
 __author__ = 'Piotr Staroszczyk'
 __author_email__ = 'piotr.staroszczyk@get24.org'
@@ -15,7 +15,6 @@ __copyright__ = 'Copyright 2017 Piotr Staroszczyk'
 
 packages = [
     __title__,
-    '%s.databases' % __title__,
     '%s.providers' % __title__,
     # '%s.modules' % __title__,
 ]
@@ -69,7 +68,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pdeo = pdeo.cli:__main__',
+            'psub = psub.cli:__main__',
         ]
     }
 )

@@ -8,6 +8,8 @@ This module implements the psub provider base methods.
 
 """
 
+import requests
+
 from ..logger import logger
 
 
@@ -28,3 +30,5 @@ class BaseProvider(object):
     def __init__(self, username=None, passwd=None, logger_name=__name__):  # remove username, passwd?
         # self.logger = logger(child=True)
         self.logger = logger(logger_name)
+        self.r = requests.Session()
+        self.r.headers = headers
