@@ -10,7 +10,7 @@ This module implements the psub napisy24.pl provider methods.
 
 import re
 from bs4 import BeautifulSoup
-from random import random
+# from random import random
 
 from . import BaseProvider
 from ..exceptions import PsubError
@@ -42,7 +42,7 @@ class Provider(BaseProvider):
             open('psub.log', 'w').write(rc)
             raise PsubError('Unknown error during login.')
 
-    def search(self, type, title, year=None, season=None, episode=None, group=None):
+    def search(self, category, title, year=None, season=None, episode=None, group=None):
         """Search subtitle."""
         # TODO: tvshow
         # TODO: language
@@ -66,7 +66,7 @@ class Provider(BaseProvider):
         for rc in results:  # based on CaTzil's kodi plugin
             rc_id = rc['data-napis-id']
             rc_title = rc.find("div", {"class": "uu_oo_uu"}).get_text().title()
-            releases = rc.find("div", attrs={"data-releases": True})["data-releases"].split('<br> ')  # TODO: parse - group (and source[dvd/br]?)
+            releases = rc.find("div", attrs={"data-releases": True})["data-releases"].split('<br> ')  # TODO: parse - group (and codec/source[dvd/br]?)
             rc2 = rc.find("div", {"class": "infoColumn2"}).contents
             rc_year = rc2[0].replace('\t', '').replace('\n', '')
             rc_time = rc2[2].replace('\t', '').replace('\n', '')  # TODO: parse
@@ -87,7 +87,7 @@ class Provider(BaseProvider):
         print(subs)
         return subs
 
-    def download(self, type, title, year=None, season=None, episode=None, group=None):
+    def download(self, category, title, year=None, season=None, episode=None, group=None):
         """Download subtitle."""
         # TODO: sort
         # mdvd | MicroDVD
@@ -95,4 +95,4 @@ class Provider(BaseProvider):
         # sr | SubRip
         # sru | SubRip (UTF-8)  <-- best, should be default
         # /download?napisId=64124&typ=sru
-        return self.search(type=type, title=title, year=year, season=season, episode=episode, group=group)
+        return self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)

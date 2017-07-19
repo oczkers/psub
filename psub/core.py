@@ -28,13 +28,13 @@ class Core(object):
         data = {}
         rc = re.match('(.+?)\.+s([0-9]){2}e([0-9]){2}\..+\-(.+?)\..{2,4}', filename)
         if rc:  # tvshow
-            data['type'] = 'tvshow'
+            data['category'] = 'tvshow'
             data['season'] = rc.group(2)
             data['episode'] = rc.group(3)
             data['group'] = rc.group(4)
         else:  # movie
             rc = re.match('(.+?)\.([0-9]{4})\..+\-(.+?)\..{2,4}', filename)
-            data['type'] = 'movie'
+            data['category'] = 'movie'
             data['year'] = rc.group(2)
             data['group'] = rc.group(3)
         data['title'] = rc.group(1)
@@ -52,4 +52,4 @@ class Core(object):
         # TODO: encoding conversion
         # TODO: imdb_id
         data = self._parseFilename(filename)
-        return self.provider.download(type=data['type'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
+        return self.provider.download(category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
