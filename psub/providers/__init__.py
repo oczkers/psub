@@ -32,3 +32,22 @@ class BaseProvider(object):
         self.logger = logger(logger_name)
         self.r = requests.Session()
         self.r.headers = headers
+
+    def __sort(self, subs):
+        """Sort subs based on score, size/time, fps, codecs."""
+        # TODO: this is crucial method, allways needs improvement
+        def key(subs):
+            return (subs['score'])
+                    # subs['size'],)
+        print(sorted(subs, key=key, reverse=True))  # DEBUG
+        return sorted(subs, key=key, reverse=True)
+
+    def search(self, category, title, year=None, season=None, episode=None, group=None):
+        """Returns best subtitle."""
+        subs = self.searchAll(category=category, title=title, year=year, season=season, episode=episode)
+        for s in subs:
+            score = 0
+            score += (0, 50)[group in s['groups']]
+            # TODO: size/time  fps  codecs
+            s['score'] = score
+        return self.__sort(subs)

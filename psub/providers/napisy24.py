@@ -42,8 +42,8 @@ class Provider(BaseProvider):
             open('psub.log', 'w').write(rc)
             raise PsubError('Unknown error during login.')
 
-    def search(self, category, title, year=None, season=None, episode=None, group=None):
-        """Search subtitle."""
+    def searchAll(self, category, title, year=None, season=None, episode=None):
+        """Search subtitles. Returns all results."""
         # TODO: tvshow
         # TODO: language
         # TODO: score
@@ -77,8 +77,8 @@ class Provider(BaseProvider):
             releases = rc.find('div', attrs={'data-releases': True})['data-releases'].split('<br> ')
             groups = []
             for i in releases:
-                rc2 = re.match('(.+?)\.(.+?)\-(.+?)', i)  # source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
-                groups.append(rc2.group(3))
+                rc2 = re.match('([0-9]{3,4}p)?\.?(.+?)\.(.+?)\-(.+)', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
+                groups.append(rc2.group(4))
             rc2 = rc.find('div', {'class': 'infoColumn2'}).contents
             # rc_year = rc2[0].replace('\t', '').replace('\n', '')
             rc_time = rc2[2].replace('\t', '').replace('\n', '')  # TODO: parse
@@ -96,8 +96,8 @@ class Provider(BaseProvider):
                              'resolution': rc_resolution,
                              'fps': rc_fps,
                              'size': rc_size})
-        print('RESULTS: ')
-        print(subs)
+        # print('RESULTS: ')  # DEBUG
+        # print(subs)  # DEBUG
         return subs
 
     def download(self, category, title, year=None, season=None, episode=None, group=None):
@@ -108,4 +108,4 @@ class Provider(BaseProvider):
         # sr | SubRip
         # sru | SubRip (UTF-8)  <-- best, should be default
         # /download?napisId=64124&typ=sru
-        return self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)
+        return self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)[0]
