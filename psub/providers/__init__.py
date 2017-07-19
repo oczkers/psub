@@ -8,7 +8,7 @@ This module implements the psub provider base methods.
 
 """
 
-from .logger import logger
+from ..logger import logger
 
 
 # chrome 58 @ win10
