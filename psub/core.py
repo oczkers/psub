@@ -24,7 +24,7 @@ class Core(object):
     def _parseFilename(self, filename):
         """Parse filename. Returns {title, year, group}."""
         print('Filename: ' + filename)  # DEBUG
-        filename = filename.lower()
+        filename = filename.lower().replace(' ', '.')
         data = {}
         rc = re.match('(.+?)\.+s([0-9]{2})e([0-9]{2})\..+\-(.+?)\..{2,4}', filename)
         if rc:  # tvshow
