@@ -54,3 +54,5 @@ class BaseProvider(object):
             # TODO: size/time  fps  codecs
             s['score'] = score
         return self.__sort(subs)[0]
+
+    # TODO: basic download()

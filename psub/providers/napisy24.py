@@ -45,10 +45,13 @@ class Provider(BaseProvider):
                     'remember': 'yes',
                     'Submit': ''}
             rc = self.r.post('http://napisy24.pl/cb-login', data=data).text
-            if 'logout' not in rc:
+            if 'logout' in rc:
+                self.config.napisy24['cookies'] = self.r.cookies.get_dict()  # this is very simple method, no domain, expire date is saved
+                self.config.save()
+                return True
+            else:
                 open('psub.log', 'w').write(rc)
                 raise PsubError('Unknown error during login.')
-            self.config.save()
 
     def searchAll(self, category, title, year=None, season=None, episode=None):
         """Search subtitles. Returns all results."""
@@ -77,6 +80,8 @@ class Provider(BaseProvider):
         open('psub.log', 'w').write(rc)
         bs = BeautifulSoup(rc, 'lxml')  # TODO?: ability to change engine
         results = bs.select('[data-napis-id]')
+        if len(results) == 0:  # TODO: dont raise, just return false/none
+            raise PsubError('No subtitles found.')
         for rc in results:  # based on CaTzil's kodi plugin
             rc_id = rc['data-napis-id']
             rc_title = rc.find('div', {'class': 'uu_oo_uu'}).get_text().title()  # TODO?: parse for tvshow ('Bloodline' Episode #2.4)
@@ -119,7 +124,7 @@ class Provider(BaseProvider):
         sub = self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)
         params = {'napisId': sub['id'],
                   'typ': 'sru'}
-        print(params)
+        print(params)  # DEBUG
         self.r.headers['Referer'] = 'http://napisy24.pl'
         rc = self.r.get('http://napisy24.pl/download', params=params).content  # TODO: stream
         # open('sub.zip', 'wb').write(rc)
