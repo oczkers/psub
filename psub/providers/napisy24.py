@@ -21,8 +21,9 @@ from ..exceptions import PsubError
 class Provider(BaseProvider):
     def __init__(self, username, passwd):  # TODO: username & password is not needed when cookies are available
         super().__init__(logger_name=__name__)
-        if username and passwd:
-            self.login(username, passwd)
+        if not username or passwd:
+            raise PsubError('Account is required to download subtitles.')  # TODO?: default acc
+        self.login(username, passwd)
 
     def login(self, username, passwd):
         # TODO: save cookies
