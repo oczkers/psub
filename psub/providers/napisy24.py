@@ -77,7 +77,7 @@ class Provider(BaseProvider):
                 'search': search,
                 'typ': typ}
         rc = self.r.post('http://napisy24.pl/szukaj', data=data).text
-        open('psub.log', 'w').write(rc)
+        # open('psub.log', 'w').write(rc)  # DEBUG
         bs = BeautifulSoup(rc, 'lxml')  # TODO?: ability to change engine
         results = bs.select('[data-napis-id]')
         if len(results) == 0:  # TODO: dont raise, just return false/none
@@ -90,8 +90,9 @@ class Provider(BaseProvider):
             for i in releases:  # TODO: refactorization - oneliner
                 if i != 'niescenowy':
                     print(i)
-                    rc2 = re.match('^([0-9]{3,4}p)?\.?(.+?)\.(.+)\-(.+?)$', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
-                    groups.append(rc2.group(4))
+                    # rc2 = re.match('^([0-9]{3,4}p)?\.?(.*?)\.?(.+)[\-\.]{1}(.+?)$', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
+                    # groups.append(rc2.group(4))
+                    groups.append(re.match('^.+[\-\.]{1}(.+?)$', i.lower()).group(1))
             rc2 = rc.find('div', {'class': 'infoColumn2'}).contents
             # rc_year = rc2[0].replace('\t', '').replace('\n', '')
             rc_time = rc2[2].replace('\t', '').replace('\n', '')  # TODO: parse
