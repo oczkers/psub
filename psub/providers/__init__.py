@@ -10,6 +10,7 @@ This module implements the psub provider base methods.
 
 import requests
 
+from ..config import Config
 from ..logger import logger
 
 
@@ -30,8 +31,10 @@ class BaseProvider(object):
     def __init__(self, username=None, passwd=None, logger_name=__name__):  # remove username, passwd?
         # self.logger = logger(child=True)
         self.logger = logger(logger_name)
+        self.config = Config()
         self.r = requests.Session()
         self.r.headers = headers
+        self.config.save()  # fullfill gaps, clean syntax etc.
 
     def __sort(self, subs):
         """Sort subs based on score, size/time, fps, codecs."""

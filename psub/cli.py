@@ -13,8 +13,8 @@ Options:
     --debug                             Enable debug.  # TODO: enable debug automatically if not daemon
     -c FILE, --config FILE              Config file. [default: ~/.config/psub.yml]  # TODO: implement
     -d DIR, --destination DIR           Destination dir for torrent files. [default: .]
-    -P PROVIDER, --provider PROVIDER    Choose provider [default: napisy24].
-    -u USERNAME, --username USERNAME    Username for provider.
+    -P PROVIDER, --provider PROVIDER    Choose provider [default: napisy24].  # TODO: default provider should not require account
+    -u USERNAME, --username USERNAME    Username for provider.  # TODO?: default napisy24 account
     -p PASSWORD, --password PASSWORD    Password for provider.
 """
 

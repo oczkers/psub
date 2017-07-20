@@ -9,6 +9,7 @@ This module implements the psub napisy24.pl provider methods.
 """
 
 import re
+import requests
 from bs4 import BeautifulSoup
 # from random import random
 from io import BytesIO
@@ -21,29 +22,33 @@ from ..exceptions import PsubError
 class Provider(BaseProvider):
     def __init__(self, username, passwd):  # TODO: username & password is not needed when cookies are available
         super().__init__(logger_name=__name__)
-        if not username or passwd:
-            raise PsubError('Account is required to download subtitles.')  # TODO?: default acc
         self.login(username, passwd)
 
     def login(self, username, passwd):
         # TODO: save cookies
-        rc = self.r.get('http://napisy24.pl').text
-        cbsecuritym3 = re.search('name="cbsecuritym3" value="(.+?)"', rc).group(1)
-        data = {'option': 'com_comprofiler',
-                'view': 'login',
-                'op2': 'login',
-                'return': 'B:aHR0cDovL25hcGlzeTI0LnBsLw==',  # somekind of url hash?
-                'message': 0,
-                'loginfrom': 'loginmodule',
-                'cbsecuritym3': cbsecuritym3,
-                'username': username,
-                'passwd': passwd,
-                'remember': 'yes',
-                'Submit': ''}
-        rc = self.r.post('http://napisy24.pl/cb-login', data=data).text
-        if 'logout' not in rc:
-            open('psub.log', 'w').write(rc)
-            raise PsubError('Unknown error during login.')
+        if self.config.napisy24['cookies']:
+            self.r.cookies = requests.cookies.cookiejar_from_dict(self.config.napisy24['cookies'])
+        elif not (username or passwd):
+            raise PsubError('Username & password or cookies is required for this provider.')  # TODO: PsubError -> PsubProviderError
+        else:  # TODO: _login
+            rc = self.r.get('http://napisy24.pl').text
+            cbsecuritym3 = re.search('name="cbsecuritym3" value="(.+?)"', rc).group(1)
+            data = {'option': 'com_comprofiler',
+                    'view': 'login',
+                    'op2': 'login',
+                    'return': 'B:aHR0cDovL25hcGlzeTI0LnBsLw==',  # somekind of url hash?
+                    'message': 0,
+                    'loginfrom': 'loginmodule',
+                    'cbsecuritym3': cbsecuritym3,
+                    'username': username,
+                    'passwd': passwd,
+                    'remember': 'yes',
+                    'Submit': ''}
+            rc = self.r.post('http://napisy24.pl/cb-login', data=data).text
+            if 'logout' not in rc:
+                open('psub.log', 'w').write(rc)
+                raise PsubError('Unknown error during login.')
+            self.config.save()
 
     def searchAll(self, category, title, year=None, season=None, episode=None):
         """Search subtitles. Returns all results."""

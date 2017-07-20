@@ -11,6 +11,7 @@ This module implements the psub basic methods.
 
 import re
 
+from .config import Config
 from .logger import logger
 from .providers import napisy24
 
@@ -19,6 +20,7 @@ class Core(object):
     def __init__(self, debug=False):
         logger(save=debug)  # init root logger
         self.logger = logger(__name__)
+        self.config = Config()  # TODO: config_file
         # self.provider = napisy24.Provider()
 
     def _parseFilename(self, filename):
@@ -42,7 +44,7 @@ class Core(object):
         print(data)  # DEBUG
         return data
 
-    def download(self, filename, provider='napisy24', username=None, passwd=None):
+    def download(self, filename, provider, username=None, passwd=None):
         """Downloads subtitles."""
         # TODO: use provider, username, password
         # TODO: destination
@@ -52,7 +54,13 @@ class Core(object):
         # TODO: encoding conversion
         # TODO: imdb_id
         # TODO: language extensions (filename.pl.srt)
-        self.provider = napisy24.Provider(username=username, passwd=passwd)
+        if not provider:
+            provider = self.config.provider
+        if provider == 'napisy24':
+            self.provider = napisy24.Provider(username=username, passwd=passwd)
+        else:
+            print('Unknown provider.')
+
         data = self._parseFilename(filename)
         fc = self.provider.download(category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
         open(filename.replace('.mkv', '.srt'), 'wb').write(fc)
