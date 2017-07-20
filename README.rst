@@ -52,7 +52,19 @@ Look at psub/cli.py for more info.
 
 .. code-block:: bash
 
-    computer ~ # psub
+  computer ~ # ls
+    True.Detective.S02E01.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E04.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E07.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv
+    True.Detective.S02E02.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E05.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E08.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv
+    True.Detective.S02E03.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E06.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv
+  computer ~ # psub *
+    ...
+  computer ~ # ls
+    True.Detective.S02E01.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E04.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E07.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv
+    True.Detective.S02E01.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt  True.Detective.S02E04.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt  True.Detective.S02E07.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt
+    True.Detective.S02E02.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E05.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E08.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv
+    True.Detective.S02E02.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt  True.Detective.S02E05.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt  True.Detective.S02E08.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt
+    True.Detective.S02E03.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv  True.Detective.S02E06.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.mkv
+    True.Detective.S02E03.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt  True.Detective.S02E06.1080p.WEB-DL.DD5.1.H.264-WAREZNiK.srt
 
 
 List of providers
