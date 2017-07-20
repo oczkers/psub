@@ -51,6 +51,7 @@ class Core(object):
         # TODO: encoding
         # TODO: encoding conversion
         # TODO: imdb_id
+        # TODO: language extensions (filename.pl.srt)
         self.provider = napisy24.Provider(username=username, passwd=passwd)
         data = self._parseFilename(filename)
         fc = self.provider.download(category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])

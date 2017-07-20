@@ -46,9 +46,7 @@ class Provider(BaseProvider):
 
     def searchAll(self, category, title, year=None, season=None, episode=None):
         """Search subtitles. Returns all results."""
-        # TODO: tvshow
         # TODO: language
-        # TODO: score
         # TODO: refactorization
         # TODO?: score boost for well know author
         subs = []
@@ -78,9 +76,11 @@ class Provider(BaseProvider):
             rc_title = rc.find('div', {'class': 'uu_oo_uu'}).get_text().title()  # TODO?: parse for tvshow ('Bloodline' Episode #2.4)
             releases = rc.find('div', attrs={'data-releases': True})['data-releases'].split('<br> ')
             groups = []
-            for i in releases:
-                rc2 = re.match('([0-9]{3,4}p)?\.?(.+?)\.(.+?)\-(.+)', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
-                groups.append(rc2.group(4))
+            for i in releases:  # TODO: refactorization - oneliner
+                if i != 'niescenowy':
+                    print(i)
+                    rc2 = re.match('^([0-9]{3,4}p)?\.?(.+?)\.(.+)\-(.+?)$', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
+                    groups.append(rc2.group(4))
             rc2 = rc.find('div', {'class': 'infoColumn2'}).contents
             # rc_year = rc2[0].replace('\t', '').replace('\n', '')
             rc_time = rc2[2].replace('\t', '').replace('\n', '')  # TODO: parse
