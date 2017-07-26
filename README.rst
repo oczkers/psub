@@ -18,6 +18,9 @@ psub
     :target: https://codecov.io/github/oczkers/psub
     :alt: codecov.io
 
+.. image:: https://api.codacy.com/project/badge/Grade/0c42351a19b44bb092932aba796a9c2f
+    :target: https://www.codacy.com/app/oczkers/psub?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=oczkers/psub&amp;utm_campaign=Badge_Grade
+
 psub is a very simple subtitle downloader for movies and tv shows. Some day it is going to be merged into pdeo.
 It is written entirely in Python.
 
