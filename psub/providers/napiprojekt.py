@@ -8,16 +8,16 @@ This module implements the psub napiprojekt.pl provider methods.
 
 """
 
-import re
-import lzma  # python 3.3+
-import requests
+# import re
+# import lzma  # python 3.3+
+# import requests
 from hashlib import md5
 from lxml import etree
 from base64 import b64decode
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 # from random import random
-from io import BytesIO
-from zipfile import ZipFile
+# from io import BytesIO
+# from zipfile import ZipFile
 
 from . import BaseProvider
 from ..exceptions import PsubError
@@ -85,6 +85,9 @@ class Provider(BaseProvider):
                   'downloaded_subtitles_lang': 'PL'}  # ENG
         rc = self.r.post('http://napiprojekt.pl/api/api-napiprojekt3.php', data=params).content  # 7z with password iBlm8NTigvru0Jr0  OR  NPc/NPc0 if not found/wrong request
         # open('psub.log', 'wb').write(rc)  # DEBUG
+        if 'content' not in rc:
+            raise PsubError('Not found.')
+            return False
         rc = etree.fromstring(rc)
         rc = b64decode(rc[1][6].text)
         # TODO: txt->srt
