@@ -83,7 +83,7 @@ class Provider(BaseProvider):
                   'downloaded_subtitles_id': md5hash,
                   'downloaded_subtitles_txt': '1',
                   'downloaded_subtitles_lang': 'PL'}  # ENG
-        rc = self.r.post('http://napiprojekt.pl/api/api-napiprojekt3.php', data=params).content  # 7z with password iBlm8NTigvru0Jr0  OR  NPc/NPc0 if not found/wrong request
+        rc = self.r.post('http://napiprojekt.pl/api/api-napiprojekt3.php', data=params).text
         # open('psub.log', 'wb').write(rc)  # DEBUG
         if 'content' not in rc:
             raise PsubError('Not found.')
