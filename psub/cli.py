@@ -39,3 +39,6 @@ def __main__():
 
 if __name__ == '__main__':
     __main__()
+
+# TODO: drop docopt, use click
+# https://github.com/pallets/click

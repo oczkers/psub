@@ -45,16 +45,13 @@ class Core(object):
         print(data)  # DEBUG
         return data
 
-    def download(self, filename, provider, username=None, passwd=None):
+    def download(self, filename, provider=None, username=None, passwd=None):
         """Downloads subtitles."""
-        # TODO: use provider, username, password
         # TODO: destination
         # TODO: language
-        # TODO: format
-        # TODO: encoding
-        # TODO: encoding conversion
+        # TODO: format + conversion
+        # TODO: encoding + conversion
         # TODO: imdb_id
-        # TODO: language extensions (filename.pl.srt)
         if not provider:
             provider = self.config.provider
         if provider == 'napisy24':  # TODO: getattr
@@ -66,4 +63,4 @@ class Core(object):
 
         data = self._parseFilename(filename)
         fc = self.provider.download(filename=filename, category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
-        open(filename.replace('.mkv', f'.{fc["ext"]}'), 'wb').write(fc['data'])  # TODO: not allways mkv
+        open(filename.replace('.mkv', f'.pl.{fc["ext"]}'), 'wb').write(fc['data'])  # TODO: not allways mkv

@@ -44,37 +44,11 @@ def fhash(z):  # raise 'Not a MD5 sum' unless md5sum =~ /^[0-9a-f]{32}$/
 class Provider(BaseProvider):
     def __init__(self, username, passwd):  # TODO: username & password is not needed when cookies are available
         super().__init__(logger_name=__name__)
-        # self.login(username, passwd)
-
-    # def login(self, username, passwd):
-    #     # TODO: save cookies
-    #     pass
-
-    # def download(self, category, title, year=None, season=None, episode=None, group=None):  # TODO: params
-    #     """Search subtitles. Returns all results."""
-    #     with open('/mnt/gdrive/movies/sleep.tight.2011.1080p.bluray.x264-geckos.mkv', 'rb') as f:
-    #         md5hash = md5(f.read(10485760)).hexdigest()
-    #     params = {'l': 'PL',  # ENG
-    #               'f': md5hash,
-    #               't': fhash(md5hash),
-    #               'v': 'other',
-    #               'kolejka': 'false',
-    #               'nick': '',
-    #               'pass': '',
-    #               'napios': 'Linux'}
-    #     rc = self.r.get('http://napiprojekt.pl/unit_napisy/dl.php', params=params).content  # 7z with password iBlm8NTigvru0Jr0  OR  NPc/NPc0 if not found/wrong request
-    #     # bzip2 7zaes
-    #     open('data.7z', 'wb').write(rc)
-    #     lz = lzma.LZMADecompressor()
-    #     rc = lz.decompress(rc)
-    #     open('sub.txt', 'wb').write(rc)
-    #     # BytesIO(rc)
-    #     asdsads
 
     def download(self, filename, category, title, year=None, season=None, episode=None, group=None):  # TODO: params
         """Download subtitle."""
-        # MicroDVD (txt)
-        # with open('/mnt/gdrive/movies/sleep.tight.2011.1080p.bluray.x264-geckos.mkv', 'rb') as f:
+        # MicroDVD (txt/sub)
+        # inspired by https://github.com/CaTzil/service.subtitles.napiprojekt/blob/master/resources/lib/NapiProjekt.py
         with open(filename, 'rb') as f:
             md5hash = md5(f.read(10485760)).hexdigest()
         params = {'mode': '1',
@@ -90,6 +64,6 @@ class Provider(BaseProvider):
             return False
         rc = etree.fromstring(rc)
         rc = b64decode(rc[1][6].text)
-        # TODO: txt->srt
+        # TODO: txt/sub->srt
         return {'data': rc,
-                'ext': 'txt'}
+                'ext': 'sub'}
