@@ -71,10 +71,11 @@ class Provider(BaseProvider):
     #     # BytesIO(rc)
     #     asdsads
 
-    def download(self, category, title, year=None, season=None, episode=None, group=None):  # TODO: params
+    def download(self, filename, category, title, year=None, season=None, episode=None, group=None):  # TODO: params
         """Download subtitle."""
         # MicroDVD (txt)
-        with open('/mnt/gdrive/movies/sleep.tight.2011.1080p.bluray.x264-geckos.mkv', 'rb') as f:
+        # with open('/mnt/gdrive/movies/sleep.tight.2011.1080p.bluray.x264-geckos.mkv', 'rb') as f:
+        with open(filename, 'rb') as f:
             md5hash = md5(f.read(10485760)).hexdigest()
         params = {'mode': '1',
                   'client': 'NapiProjektPython',
@@ -87,4 +88,5 @@ class Provider(BaseProvider):
         rc = etree.fromstring(rc)
         rc = b64decode(rc[1][6].text)
         # TODO: txt->srt
-        return rc
+        return {'data': rc,
+                'ext': 'txt'}

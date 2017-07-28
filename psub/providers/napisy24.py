@@ -114,7 +114,7 @@ class Provider(BaseProvider):
         # print(subs)  # DEBUG
         return subs
 
-    def download(self, category, title, year=None, season=None, episode=None, group=None):
+    def download(self, filename, category, title, year=None, season=None, episode=None, group=None):
         """Download subtitle."""
         # TODO: sort based on group, size/time, fps, codecs
         # mdvd | MicroDVD
@@ -132,4 +132,5 @@ class Provider(BaseProvider):
         fc = ZipFile(BytesIO(rc))
         for i in fc.namelist():  # search for subtitle (there are might be url, nfo etc.)
             if i[-3:] == 'srt':
-                return fc.open(i).read()
+                return {'data': fc.open(i).read(),
+                        'ext': 'srt'}

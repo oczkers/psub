@@ -25,6 +25,7 @@ class Core(object):
 
     def _parseFilename(self, filename):
         """Parse filename. Returns {title, year, group}."""
+        # TODO: path
         print('Filename: ' + filename)  # DEBUG
         filename = filename.lower().replace(' ', '.')
         data = {}
@@ -64,5 +65,5 @@ class Core(object):
             print('Unknown provider.')
 
         data = self._parseFilename(filename)
-        fc = self.provider.download(category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
-        open(filename.replace('.mkv', '.srt'), 'wb').write(fc)
+        fc = self.provider.download(filename=filename, category=data['category'], title=data['title'], year=data.get('year'), season=data.get('season'), episode=data.get('episode'), group=data['group'])
+        open(filename.replace('.mkv', f'.{fc["ext"]}'), 'wb').write(fc['data'])  # TODO: not allways mkv
