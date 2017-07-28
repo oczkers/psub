@@ -13,7 +13,7 @@ import re
 
 from .config import Config
 from .logger import logger
-from .providers import napisy24
+from .providers import napisy24, napiprojekt
 
 
 class Core(object):
@@ -56,8 +56,10 @@ class Core(object):
         # TODO: language extensions (filename.pl.srt)
         if not provider:
             provider = self.config.provider
-        if provider == 'napisy24':
+        if provider == 'napisy24':  # TODO: getattr
             self.provider = napisy24.Provider(username=username, passwd=passwd)
+        elif provider == 'napiprojekt':
+            self.provider = napiprojekt.Provider(username=username, passwd=passwd)
         else:
             print('Unknown provider.')
 

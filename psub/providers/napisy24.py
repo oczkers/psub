@@ -124,7 +124,7 @@ class Provider(BaseProvider):
         # /download?napisId=64124&typ=sru
         sub = self.search(category=category, title=title, year=year, season=season, episode=episode, group=group)
         params = {'napisId': sub['id'],
-                  'typ': 'sru'}
+                  'typ': 'sru'}  # subrip unicode
         print(params)  # DEBUG
         self.r.headers['Referer'] = 'http://napisy24.pl'
         rc = self.r.get('http://napisy24.pl/download', params=params).content  # TODO: stream
