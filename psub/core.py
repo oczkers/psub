@@ -45,7 +45,7 @@ class Core(object):
         print(data)  # DEBUG
         return data
 
-    def download(self, filename, provider=None, username=None, passwd=None):
+    def download(self, filename, provider=None):
         """Downloads subtitles."""
         # TODO: destination
         # TODO: language
@@ -55,9 +55,9 @@ class Core(object):
         if not provider:
             provider = self.config.provider
         if provider == 'napisy24':  # TODO: getattr
-            self.provider = napisy24.Provider(username=username, passwd=passwd)
+            self.provider = napisy24.Provider(username=self.config.napisy24['username'], passwd=self.config.napisy24['passwd'])
         elif provider == 'napiprojekt':
-            self.provider = napiprojekt.Provider(username=username, passwd=passwd)
+            self.provider = napiprojekt.Provider(username=self.config.napiprojekt['username'], passwd=self.config.napiprojekt['passwd'])
         else:
             print('Unknown provider.')
 

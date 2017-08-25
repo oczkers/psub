@@ -26,7 +26,7 @@ class Provider(BaseProvider):
 
     def login(self, username, passwd):
         # TODO: save cookies
-        if self.config.napisy24['cookies']:
+        if self.config.napisy24['cookies'] and 'logout' in self.r.get('http://napisy24.pl').text:
             self.r.cookies = requests.cookies.cookiejar_from_dict(self.config.napisy24['cookies'])
         elif not (username or passwd):
             raise PsubError('Username & password or cookies is required for this provider.')  # TODO: PsubError -> PsubProviderError

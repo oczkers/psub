@@ -38,12 +38,17 @@ class Config(object):
         # TODO: encoding
         # TODO: format
         self.provider = config.get('provider', 'napisy24')
-        self.napisy24 = config.get('napisy24', {'cookies': None})
+        self.napisy24 = config.get('napisy24', {'cookies': None,
+                                                'username': None,
+                                                'passwd': None})
+        self.napiprojekt = config.get('napiprojekt', {'username': None,
+                                                      'passwd': None})
         # self.save()  # save to add new values, correct structure etc.
 
     def save(self):
         # TODO: autosave on change any param
         config = {'destination': self.destination,
                   'provider': self.provider,
-                  'napisy24': self.napisy24}
+                  'napisy24': self.napisy24,
+                  'napiprojekt': self.napiprojekt}
         yaml.safe_dump(config, open(self.config_file, 'w'), default_flow_style=False)
