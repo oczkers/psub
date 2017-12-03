@@ -92,7 +92,7 @@ class Provider(BaseProvider):
                     print(i)
                     # rc2 = re.match('^([0-9]{3,4}p)?\.?(.*?)\.?(.+)[\-\.]{1}(.+?)$', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
                     # groups.append(rc2.group(4))
-                    groups.append(re.match('^.+[\-\.]{1}(.+?)$', i.lower()).group(1))
+                    groups.append(re.match('^.+?[\-\.]{0,1}(.+?)$', i.lower()).group(1))
             rc2 = rc.find('div', {'class': 'infoColumn2'}).contents
             # rc_year = rc2[0].replace('\t', '').replace('\n', '')
             rc_time = rc2[2].replace('\t', '').replace('\n', '')  # TODO: parse
