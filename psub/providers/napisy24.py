@@ -32,19 +32,20 @@ class Provider(BaseProvider):
             raise PsubError('Username & password or cookies is required for this provider.')  # TODO: PsubError -> PsubProviderError
         else:  # TODO: _login
             rc = self.r.get('http://napisy24.pl').text
+            ret = re.search('name="return" value="(.+?)" />', rc).group(1)
             cbsecuritym3 = re.search('name="cbsecuritym3" value="(.+?)"', rc).group(1)
             data = {'option': 'com_comprofiler',
                     'view': 'login',
                     'op2': 'login',
-                    'return': 'B:aHR0cDovL25hcGlzeTI0LnBsLw==',  # somekind of url hash?
+                    'return': ret,  # somekind of url hash?
                     'message': 0,
-                    'loginfrom': 'loginmodule',
+                    'loginfrom': 'loginform',
                     'cbsecuritym3': cbsecuritym3,
                     'username': username,
                     'passwd': passwd,
                     'remember': 'yes',
                     'Submit': ''}
-            rc = self.r.post('http://napisy24.pl/cb-login', data=data).text
+            rc = self.r.post('https://napisy24.pl/cb-login', data=data).text
             if 'logout' in rc:
                 self.config.napisy24['cookies'] = self.r.cookies.get_dict()  # this is very simple method, no domain, expire date is saved
                 self.config.save()
