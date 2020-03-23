@@ -8,7 +8,8 @@ This module implements the psub provider base methods.
 
 """
 
-import requests
+# import requests
+import httpx
 
 from ..config import Config
 from ..logger import logger
@@ -32,7 +33,8 @@ class BaseProvider(object):
         # self.logger = logger(child=True)
         self.logger = logger(logger_name)
         self.config = Config()
-        self.r = requests.Session()
+        # self.r = requests.Session()
+        self.r = httpx.Client()
         self.r.headers = headers
         self.config.save()  # fullfill gaps, clean syntax etc.
 

@@ -9,7 +9,7 @@ This module implements the psub napisy24.pl provider methods.
 """
 
 import re
-import requests
+# import requests
 from bs4 import BeautifulSoup
 # from random import random
 from io import BytesIO
@@ -27,7 +27,8 @@ class Provider(BaseProvider):
     def login(self, username, passwd):
         # TODO: save cookies
         if self.config.napisy24['cookies'] and 'logout' in self.r.get('http://napisy24.pl').text:
-            self.r.cookies = requests.cookies.cookiejar_from_dict(self.config.napisy24['cookies'])
+            # self.r.cookies = requests.cookies.cookiejar_from_dict(self.config.napisy24['cookies'])
+            self.r.cookies.update(self.config.napisy24['cookies'])
         elif not (username or passwd):
             raise PsubError('Username & password or cookies is required for this provider.')  # TODO: PsubError -> PsubProviderError
         else:  # TODO: _login
@@ -77,8 +78,8 @@ class Provider(BaseProvider):
                 'lang': 0,  # polish
                 'search': search,
                 'typ': typ}
-        rc = self.r.post('http://napisy24.pl/szukaj', data=data).text
-        # open('psub.log', 'w').write(rc)  # DEBUG
+        rc = self.r.post('https://napisy24.pl/szukaj', data=data).text
+        open('psub.log', 'w').write(rc)  # DEBUG
         bs = BeautifulSoup(rc, 'lxml')  # TODO?: ability to change engine
         results = bs.select('[data-napis-id]')
         if len(results) == 0:  # TODO: dont raise, just return false/none
@@ -93,7 +94,7 @@ class Provider(BaseProvider):
                     print(i)
                     # rc2 = re.match('^([0-9]{3,4}p)?\.?(.*?)\.?(.+)[\-\.]{1}(.+?)$', i.lower())  # quality (1080p)  |  source (webrip)  |  codecs (x264.mp3)  |  group (fleet)
                     # groups.append(rc2.group(4))
-                    groups.append(re.match('^.+?[\-\.]{0,1}(.+?)$', i.lower()).group(1))
+                    groups.append(re.match(r'^.+?[\-\.]{0,1}(.+?)$', i.lower()).group(1))
             rc2 = rc.find('div', {'class': 'infoColumn2'}).contents
             # rc_year = rc2[0].replace('\t', '').replace('\n', '')
             rc_time = rc2[2].replace('\t', '').replace('\n', '')  # TODO: parse
